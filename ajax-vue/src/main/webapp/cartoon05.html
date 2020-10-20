@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <!-- 使用第三方类库来实现动画 -->
+    <link href="/WEB-INF/animate.css" rel="stylesheet"/>
+    <style>
+        .ball {
+            width: 15px;
+            height: 15px;
+            border-redius: 50%;
+            background-color: #FF0000;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="app" style="height: 170px">
+    <input @click="flag=!flag" type="button" value="加入购物车">
+    <!-- 以@定义的属性，一会使用动画钩子函数进行相应处理 -->
+    <transition
+            @after-enter="afterEnter"
+            @before-enter="beforeEnter"
+            @enter="enter">
+        <div class="ball" v-show="flag"></div>
+    </transition>
+
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<img height="400" src="image/duola.png" width="400">
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            flag: false
+        },
+        methods: {
+            /**
+             *动画钩子函数也是具有参数的，一般会有一个参数叫做el，这个el就是钩子函数的第一个参数
+             * el表示的是要执行动画的那个dom元素，是一个原生js的dom元素
+             * 我们可以认为，el是通过document.getElementByid("")的方式获取到的原生dom对象
+             */
+            beforeEnter(el) {
+                /**
+                 *beforeEnter表示动画入场之前，此时动画尚未开始，可以在beforeEnter中，设置元素开始动画之前的起始样式
+                 * el.style.transform设置小球开始动画之前的起始位置
+                 * translate(0,0)表示在坐标0,0的位置
+                 */
+                el.style.transform = "translate(0,0)"
+            },
+            enter(el, done) {
+                //这行代码没有实际作用，但是如果不写，就不会出现动画的效果
+                //可以认为，el.offsetWidth会强制启动动画
+                el.offsetWidth
+
+                //enter表示动画开始之后的样式设置，这里，可以设置小球完成动画之后的结束状态
+                el.style.transform = "translate(150px,350px)"
+                el.style.transition = 'all 1s ease'
+
+                //这里的done，起始就是afterEnter这个函数，也就是说，done就是afterEnter函数的引用
+                done()
+            },
+            afterEnter(el) {
+
+                //动画完成之后，会调用afterEnter，使之消失
+                this.flag = !this.flag
+
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

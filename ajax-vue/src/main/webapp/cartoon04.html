@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <!-- 使用第三方类库来实现动画 -->
+    <link rel="stylesheet" href="/WEB-INF/animate.css"/>
+
+</head>
+<body>
+
+<div id="app">
+    <input @click="flag=!flag" type="button" value="点击"/>
+    <br/>
+    <!-- 使用动画效果来展现p标签的文
+           需要使用transition元素，将需要被动画控制的元素包裹起来，对于当前信息的展现，我们包裹的是p标签
+           transition元素，官方推荐 -->
+
+<!-- animate为我们提供了enter-active-class和leave-active-class用来操作元素进场和离场的效果
+        以弹入弹出的方式进场和离场
+        animated bounceIn
+        animated bounceOut -->
+
+<!--    <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+        <p v-if="flag">abcdefg12345678910</p>
+    </transition>-->
+
+<!-- 简化操作我们可以将class=animated写在标签里,使用:duration="{enter:200,leave:400}表示入场和离场时间 -->
+    <transition enter-active-class="bounceIn" leave-active-class="bounceOut"
+                :duration="{enter:200,leave:400}">
+        <p v-if="flag">abcdefg12345678910</p>
+    </transition>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            flag: false
+        }
+
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <!-- 设置我们自己的v-前缀可以有效的区分不同元素使用动画 -->
+    <style>
+        /*自定义样式给特定标签配置动画，只需要把v-替换成transition标签的name*/
+        .tran1-enter.active {
+            /*设置弹进的时长*/
+            animation: bounce-in .5s;
+        }
+
+        .tran1-leave-active {
+            /*设置弹出时长*/
+            /*正常的弹入弹出都需要将reverse加上*/
+            animation: bounce-in .5s reverse;
+        }
+
+        .tran2-enter.active {
+            /*设置弹进的时长*/
+            animation: bounce-in 2.5s;
+        }
+
+        .tran2-leave-active {
+            /*设置弹出时长*/
+            /*正常的弹入弹出都需要将reverse加上*/
+            animation: bounce-in 2.5s reverse;
+        }
+
+        /*使用vue搭配实现css动画的实现，@keyframes，是css3定义的动画规则，
+        bounce-in表示弹入弹出的效果*/
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(2);
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="app">
+    <input @click="flag1=!flag1" type="button" value="点击"/>
+    <br/>
+    <!-- 使用动画效果来展现p标签的文
+           需要使用transition元素，将需要被动画控制的元素包裹起来，对于当前信息的展现，我们包裹的是p标签
+           transition元素，官方推荐 -->
+    <transition name="tran1">
+        <p v-if="flag1">abcdefg12345678910</p>
+
+    </transition>
+    <br/>
+    <input @click="flag2=!flag2" type="button" value="点击"/>
+    <br/>
+
+    <transition name="tran2">
+        <p v-if="flag2">abcdefg12345678910</p>
+
+    </transition>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            flag1: false,
+            flag2: false
+        }
+
+    })
+
+</script>
+</body>
+</html>

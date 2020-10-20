@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <!-- 自定义两组vuejs的样式之一 -->
+    <style>
+
+        .v-enter.active {
+            /*设置弹进的时长*/
+            animation: bounce-in 2.5s;
+        }
+
+        .v-leave-active {
+            /*设置弹出时长*/
+            /*正常的弹入弹出都需要将reverse加上*/
+            animation: bounce-in 2.5s reverse;
+        }
+
+        /*使用vue搭配实现css动画的实现，@keyframes，是css3定义的动画规则，
+        bounce-in表示弹入弹出的效果*/
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(2);
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="app">
+    <input @click="flag=!flag" type="button" value="点击"/>
+    <br/>
+    <!-- 使用动画效果来展现p标签的文
+           需要使用transition元素，将需要被动画控制的元素包裹起来，对于当前信息的展现，我们包裹的是p标签
+           transition元素，官方推荐 -->
+    <transition>
+        <p v-if="flag">abcdefg</p>
+
+    </transition>
+
+
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            flag: false
+
+        }
+
+    })
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <!-- 使用第三方类库来实现动画 -->
+    <link href="/WEB-INF/animate.css" rel="stylesheet"/>
+    <style>
+        li {
+            border: 1px dashed #999999;
+            margin: 5px;
+            line-height: 50px;
+            padding-left: 8px;
+            font-size: 2 s2px;
+            width: 80%;
+        }
+
+        li:hover {
+            background-color: hotpink;
+            transition: all 0.8s ease;
+        }
+
+        .v-enter, .v-leave-to {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+
+        .v-enter-active, v-leave-active {
+            transition: all 0.6s ease;
+        }
+
+        /*下面的.v-move和.v-leave-active需要配合使用，能够实现列表后续的元素，渐渐的飘上来的效果*/
+        .v-move {
+            transition: all 0.6s ease;
+        }
+
+        .v-leave-active {
+            position: absolute;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div>
+        <label>
+            id:
+            <input type="text" v-model="id">
+        </label>
+        <label>
+            name:
+            <input type="text" v-model="name">
+        </label>
+        <input @click="add" type="submit" value="添加">
+
+    </div>
+    <!-- 定义动画区域 -->
+    <!-- 在我们实现列表过渡的时候，如果需要过渡的元素，是通过v-for渲染出来的，则不能使用
+            transition进行包裹，必须使用transition-group来进行包裹，如果腰围v-for循环创建
+            的元素设置动画，必须为每一个元素设置：key属性(必须是当前记录的id)
+            给transition添加appear属性。在页面刚展现出来的时候，实现入场时候的效果
+            通过transition-group元素，设置tag属性，指定transition-group渲染为指定的元素
+            如果不指定tag属性，默认渲染为span元素 -->
+    <transition-group appear tag="url">
+
+        <li :key="i.id" @click="del(num)" v-for="(i,num) in list">
+            {{i.id}}----{{i.name}}
+        </li>
+
+    </transition-group>
+
+</div>
+
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            id: "",
+            name: "",
+            list: [
+                {id: 1, name: '潘凤'}, {id: 2, name: '邢道荣'}, {id: 3, name: '许攸'}
+
+            ]
+        },
+        methods: {
+            add() {
+                //给列表添加数据
+                this.list.push({id: this.id, name: this.name})
+                //添加完后，清除文本框
+                this.id = '';
+                this.name = '';
+
+            },
+            del(num) {
+                //根据下标删除所在行
+                this.list.splice(num, 1);
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

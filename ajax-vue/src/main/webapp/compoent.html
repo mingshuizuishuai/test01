@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+<div id="app">
+    <com pos="bbb"></com>
+</div>
+
+<script>
+    //自定义组件
+    let component={
+        //template:模板，就是你赋予给组件的功能
+        template:"<div><button>我的{{pos}}</button><button>你的</button><button>它的</button></div>",
+        data(){ //data方法
+            return{
+                id:123
+            }
+        },
+        //传入参数的结合，这里注意下驼峰命名，若有参数名是驼峰命名的，我们是使用-作为分隔符的
+        props:['pos']
+    }
+
+    vm = new Vue({
+        el: "#app",
+        data: {
+            flag: false
+        },
+        methods:{
+
+        },
+        /**
+         * components(组件)，和methods同级
+         * com这个是将要写在页面的标签名
+         * component是组件的名称(随意)，不用加this
+         */
+        components:{
+            com:component
+        }
+    })
+</script>
+</body>
+</html>
